@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>PS Operator</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;--line:#e5e7eb;--primary:#2563eb;--green:#16a34a;--red:#dc2626;--yellow:#d97706;--shadow:0 8px 24px rgba(15,23,42,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
+button,input{font:inherit}.app{max-width:700px;margin:auto;min-height:100vh}.hidden{display:none!important}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:800;font-size:18px}.sub{font-size:12px;color:var(--muted);margin-top:2px}
+.iconbtn{border:0;background:#eef2ff;color:#1d4ed8;border-radius:12px;padding:9px 12px;font-weight:700}
+main{padding:16px 16px 90px}.view{display:none}.view.active{display:block}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px;box-shadow:var(--shadow)}.stat b{display:block;font-size:19px}.stat span{font-size:11px;color:var(--muted)}
+.section-title{font-size:16px;font-weight:800;margin:18px 0 10px}
+.plan{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:var(--shadow)}
+.plan-label{text-align:center;font-size:11px;color:var(--muted);font-weight:700;margin:2px 0 9px;text-transform:uppercase;letter-spacing:.08em}
+.plan-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:stretch}
+.zone{border:1px solid #cbd5e1;border-radius:12px;min-height:72px;padding:8px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;font-weight:800;background:#fafafa}
+.zone.area{min-height:150px;background:#f8fafc;color:#475569}
+.top-left{grid-column:1}.top-right{grid-column:3;display:grid;grid-template-columns:1fr;gap:8px}.area{grid-column:2;grid-row:1 / span 2}
+.bottom{grid-column:1 / span 3;display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.seat{position:relative;min-height:82px;border:0;border-radius:14px;padding:9px;color:#fff;text-align:left;cursor:pointer;box-shadow:0 4px 12px rgba(15,23,42,.1)}
+.seat.free{background:linear-gradient(145deg,#16a34a,#15803d)}.seat.busy{background:linear-gradient(145deg,#dc2626,#b91c1c)}.seat.done{background:linear-gradient(145deg,#d97706,#b45309)}
+.seat .num{font-size:18px;font-weight:900}.seat .status{font-size:10px;opacity:.9;margin-top:4px}.seat .time{font-size:11px;font-weight:700;margin-top:6px}
+.cards{display:grid;gap:10px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.badge{font-size:11px;font-weight:800;padding:5px 8px;border-radius:999px}.b-green{background:#dcfce7;color:#166534}.b-red{background:#fee2e2;color:#991b1b}.b-yellow{background:#fef3c7;color:#92400e}.b-gray{background:#f1f5f9;color:#475569}
+.money{font-size:21px;font-weight:900;margin-top:8px}.muted{color:var(--muted);font-size:12px}
+.actions{display:flex;gap:8px;margin-top:12px}.btn{flex:1;border:0;border-radius:12px;padding:11px 10px;font-weight:800;cursor:pointer}.primary{background:var(--primary);color:#fff}.danger{background:#fee2e2;color:#991b1b}.success{background:#dcfce7;color:#166534}.secondary{background:#eef2f7;color:#334155}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(700px,100%);background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);padding:8px 10px calc(8px + env(safe-area-inset-bottom));z-index:20}
+nav button{border:0;background:transparent;color:#64748b;padding:8px 4px;border-radius:10px;font-size:11px;font-weight:800}nav button.active{background:#eff6ff;color:#1d4ed8}
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}.loginbox{width:100%;max-width:390px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow)}.loginbox h1{margin:0 0 4px}.loginbox p{color:var(--muted);font-size:13px}.field{margin:12px 0}.field label{display:block;font-size:12px;font-weight:800;margin-bottom:6px}.field input{width:100%;border:1px solid #d1d5db;border-radius:12px;padding:12px;outline:none}.field input:focus{border-color:var(--primary);box-shadow:0 0 0 3px #dbeafe}.full{width:100%}.hint{font-size:11px;color:var(--muted);margin-top:10px}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.48);display:none;align-items:flex-end;justify-content:center;z-index:50}.modal.show{display:flex}.sheet{width:min(700px,100%);background:#fff;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));max-height:90vh;overflow:auto}.sheet h2{margin:0 0 4px}.close{float:right;border:0;background:#f1f5f9;border-radius:10px;padding:7px 10px}.pricebox{background:#f8fafc;border-radius:14px;padding:12px;margin:12px 0}.pricebox b{font-size:24px}.smallgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+table{width:100%;border-collapse:collapse;font-size:12px}td,th{text-align:left;padding:9px 5px;border-bottom:1px solid var(--line)}th{color:var(--muted)}
+@media(max-width:430px){.bottom{gap:5px}.seat{padding:7px;min-height:75px}.seat .num{font-size:15px}.stats{gap:7px}.stat{padding:10px}}
+</style>
+</head>
+<body>
+<div id="login" class="login">
+  <div class="loginbox">
+    <h1>🎮 PS Operator</h1><p>Panel operator rental PS3</p>
+    <div class="field"><label>Username</label><input id="user" autocomplete="username" value="operator"></div>
+    <div class="field"><label>Password</label><input id="pass" type="password" autocomplete="current-password" placeholder="Masukkan password"></div>
+    <button class="btn primary full" onclick="login()">Masuk</button>
+    <div class="hint">Login awal: <b>operator</b> / <b>1234</b>. Password dapat diubah dari menu Pengaturan.</div>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+<header><div><div class="brand">🎮 PS Operator</div><div class="sub">Rental PS3 • 10 unit</div></div><button class="iconbtn" onclick="logout()">Keluar</button></header>
+<main>
+  <section id="home" class="view active">
+    <div class="stats">
+      <div class="stat"><b id="sFree">10</b><span>Kosong</span></div>
+      <div class="stat"><b id="sBusy">0</b><span>Bermain</span></div>
+      <div class="stat"><b id="sIncome">Rp0</b><span>Pendapatan hari ini</span></div>
+    </div>
+    <div class="section-title">Denah PS</div>
+    <div class="plan">
+      <div class="plan-label">Bagian atas</div>
+      <div class="plan-grid">
+        <div class="zone top-left">TV / PS 5</div>
+        <div class="zone area">AREA ETMIN</div>
+        <div class="top-right">
+          <div class="zone">TV / PS 6</div><div class="zone">TV / PS 7</div>
+        </div>
+        <div class="bottom">
+          <button class="seat free" id="seat-11" onclick="openUnit(11)"><div class="num">11</div><div class="status">KOSONG</div></button>
+          <button class="seat free" id="seat-12" onclick="openUnit(12)"><div class="num">12</div><div class="status">KOSONG</div></button>
+          <button class="seat free" id="seat-13" onclick="openUnit(13)"><div class="num">13</div><div class="status">KOSONG</div></button>
+          <button class="seat free" id="seat-14" onclick="openUnit(14)"><div class="num">14</div><div class="status">KOSONG</div></button>
+          <button class="seat free" id="seat-15" onclick="openUnit(15)"><div class="num">15</div><div class="status">KOSONG</div></button>
+          <button class="seat free" id="seat-16" onclick="openUnit(16)"><div class="num">16</div><div class="status">KOSONG</div></button>
+          <button class="seat free" id="seat-17" onclick="openUnit(17)"><div class="num">17</div><div class="status">KOSONG</div></button>
+        </div>
+      </div>
+    </div>
+    <div class="section-title">Semua unit</div>
+    <div id="unitCards" class="cards"></div>
+  </section>
+
+  <section id="history" class="view">
+    <div class="section-title">Riwayat & pembayaran</div>
+    <div id="historyList" class="cards"></div>
+  </section>
+
+  <section id="settings" class="view">
+    <div class="section-title">Pengaturan</div>
+    <div class="card">
+      <div class="row"><b>Tarif</b><span class="badge b-green">PS3</span></div>
+      <div class="smallgrid" style="margin-top:12px">
+        <div class="pricebox"><div class="muted">30 menit</div><b>Rp3.000</b></div>
+        <div class="pricebox"><div class="muted">1 jam</div><b>Rp5.000</b></div>
+      </div>
+      <div class="muted">Perhitungan: setiap 60 menit = Rp5.000; sisa 30 menit = Rp3.000.</div>
+    </div>
+    <div class="card" style="margin-top:10px">
+      <b>Ubah password operator</b>
+      <div class="field"><label>Password baru</label><input id="newPass" type="password"></div>
+      <button class="btn primary full" onclick="changePassword()">Simpan password</button>
+    </div>
+    <div class="card" style="margin-top:10px">
+      <b>Reset data</b><p class="muted">Menghapus semua sesi dan riwayat di perangkat ini.</p>
+      <button class="btn danger full" onclick="resetData()">Reset semua data</button>
+    </div>
+  </section>
+</main>
+<nav>
+<button class="active" onclick="showView('home',this)">🏠<br>Beranda</button>
+<button onclick="showView('history',this)">🧾<br>Riwayat</button>
+<button onclick="showView('settings',this)">⚙️<br>Pengaturan</button>
+</nav>
+</div>
+
+<div id="modal" class="modal" onclick="if(event.target===this)closeModal()">
+ <div class="sheet">
+   <button class="close" onclick="closeModal()">Tutup</button>
+   <h2 id="mTitle">PS 5</h2><div id="mSub" class="muted"></div>
+   <div id="mBody"></div>
+ </div>
+</div>
+
+<script>
+const UNITS=[5,6,7,11,12,13,14,15,16,17];
+const KEY='ps_operator_v1';
+let state=JSON.parse(localStorage.getItem(KEY)||'null')||{password:'1234',sessions:{},history:[]};
+let selected=null;
+
+function save(){localStorage.setItem(KEY,JSON.stringify(state));render();}
+function login(){
+ const u=document.getElementById('user').value.trim(), p=document.getElementById('pass').value;
+ if(u==='operator' && p===state.password){sessionStorage.setItem('pslogin','1');showApp();}
+ else alert('Username atau password salah.');
+}
+function showApp(){document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');render();}
+function logout(){sessionStorage.removeItem('pslogin');location.reload();}
+if(sessionStorage.getItem('pslogin')==='1')showApp();
+
+function rupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n).replace('IDR','Rp').replace(/\s/g,'')}
+function durationText(ms){let m=Math.max(0,Math.floor(ms/60000)),h=Math.floor(m/60);m%=60;return h?`${h} jam ${m} menit`:`${m} menit`}
+function cost(ms){
+ const mins=Math.floor(ms/60000);
+ const h=Math.floor(mins/60), rem=mins%60;
+ return h*5000+(rem>=30?3000:0);
+}
+function statusFor(n){
+ const s=state.sessions[n];
+ if(!s)return 'free';
+ return s.ended ? 'done':'busy';
+}
+function render(){
+ const today=new Date().toISOString().slice(0,10);
+ const income=state.history.filter(x=>x.date===today&&x.paid).reduce((a,x)=>a+x.cost,0);
+ const busy=UNITS.filter(n=>state.sessions[n]&&!state.sessions[n].ended).length;
+ document.getElementById('sBusy').textContent=busy;
+ document.getElementById('sFree').textContent=UNITS.length-busy;
+ document.getElementById('sIncome').textContent=rupiah(income);
+ UNITS.forEach(n=>{
+   const b=document.getElementById('seat-'+n); if(!b)return;
+   const s=state.sessions[n], st=statusFor(n);
+   b.className='seat '+st;
+   b.querySelector('.status').textContent=st==='free'?'KOSONG':st==='busy'?'BERMAIN':(s.paid?'DIBAYAR':'BELUM BAYAR');
+   b.querySelector('.time').remove?.();
+   if(st==='busy'){let t=document.createElement('div');t.className='time';t.textContent=durationText(Date.now()-s.start);b.appendChild(t)}
+ });
+ document.getElementById('unitCards').innerHTML=UNITS.map(n=>{
+   const s=state.sessions[n], st=statusFor(n);
+   if(st==='free')return `<div class="card"><div class="row"><b>PS ${n}</b><span class="badge b-green">KOSONG</span></div><div class="actions"><button class="btn primary" onclick="startUnit(${n})">▶ Mulai</button></div></div>`;
+   if(st==='busy')return `<div class="card"><div class="row"><b>PS ${n}</b><span class="badge b-red">BERMAIN</span></div><div class="muted" style="margin-top:6px">Mulai ${new Date(s.start).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})} • <span id="cardtime-${n}">${durationText(Date.now()-s.start)}</span></div><div class="actions"><button class="btn danger" onclick="finishUnit(${n})">■ Selesai</button></div></div>`;
+   return `<div class="card"><div class="row"><b>PS ${n}</b><span class="badge ${s.paid?'b-green':'b-yellow'}">${s.paid?'DIBAYAR':'BELUM BAYAR'}</span></div><div class="muted" style="margin-top:6px">${durationText(s.end-s.start)} • selesai ${new Date(s.end).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})}</div><div class="money">${rupiah(s.cost)}</div><div class="actions">${s.paid?'':`<button class="btn success" onclick="markPaid(${n})">✓ Sudah Dibayar</button>`}<button class="btn secondary" onclick="clearUnit(${n})">Tutup</button></div></div>`;
+ }).join('');
+ renderHistory();
+}
+setInterval(()=>{if(document.getElementById('app')&&!document.getElementById('app').classList.contains('hidden'))render();},1000);
+
+function startUnit(n){
+ state.sessions[n]={start:Date.now(),ended:false,paid:false};save();
+}
+function finishUnit(n){
+ const s=state.sessions[n]; if(!s)return;
+ s.end=Date.now();s.ended=true;s.cost=cost(s.end-s.start);s.paid=false;
+ save();openUnit(n);
+}
+function markPaid(n){
+ const s=state.sessions[n];if(!s)return;s.paid=true;
+ state.history.push({id:Date.now(),unit:n,start:s.start,end:s.end,cost:s.cost,paid:true,date:new Date(s.end).toISOString().slice(0,10)});
+ save();closeModal();
+}
+function clearUnit(n){delete state.sessions[n];save();closeModal();}
+function openUnit(n){
+ selected=n;const s=state.sessions[n];
+ document.getElementById('mTitle').textContent='PS '+n;
+ document.getElementById('mSub').textContent=s&&!s.ended?'Sedang bermain':s?'Sesi selesai':'Siap digunakan';
+ let body='';
+ if(!s)body=`<div class="pricebox"><div class="muted">Tarif</div><b>Rp5.000/jam</b><div class="muted">30 menit Rp3.000</div></div><button class="btn primary full" onclick="startUnit(${n});closeModal()">▶ Mulai bermain</button>`;
+ else if(!s.ended)body=`<div class="pricebox"><div class="muted">Mulai</div><b>${new Date(s.start).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})}</b><div class="muted" style="margin-top:6px">Durasi <span id="modalDur">${durationText(Date.now()-s.start)}</span></div></div><button class="btn danger full" onclick="finishUnit(${n})">■ Selesai bermain</button>`;
+ else body=`<div class="pricebox"><div class="muted">Durasi</div><b>${durationText(s.end-s.start)}</b><div class="muted">Total tagihan</div><b>${rupiah(s.cost)}</b></div><div class="actions">${s.paid?'':`<button class="btn success" onclick="markPaid(${n})">✓ Sudah Dibayar</button>`}<button class="btn secondary" onclick="clearUnit(${n})">Tutup sesi</button></div>`;
+ document.getElementById('mBody').innerHTML=body;document.getElementById('modal').classList.add('show');
+}
+function closeModal(){document.getElementById('modal').classList.remove('show');selected=null}
+function renderHistory(){
+ const el=document.getElementById('historyList');
+ if(!state.history.length){el.innerHTML='<div class="card"><div class="muted">Belum ada riwayat pembayaran.</div></div>';return}
+ const rows=[...state.history].sort((a,b)=>b.end-a.end);
+ el.innerHTML=`<div class="card"><table><thead><tr><th>PS</th><th>Waktu</th><th>Durasi</th><th>Total</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${x.unit}</b></td><td>${new Date(x.end).toLocaleDateString('id-ID')}<br>${new Date(x.end).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})}</td><td>${durationText(x.end-x.start)}</td><td><b>${rupiah(x.cost)}</b><br><span class="badge b-green">DIBAYAR</span></td></tr>`).join('')}</tbody></table></div>`;
+}
+function showView(id,btn){
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');
+ document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
+ render();
+}
+function changePassword(){
+ const p=document.getElementById('newPass').value.trim();if(p.length<4)return alert('Password minimal 4 karakter.');
+ state.password=p;document.getElementById('newPass').value='';save();alert('Password berhasil diubah.');
+}
+function resetData(){
+ if(confirm('Yakin ingin menghapus semua sesi dan riwayat?')){state.sessions={};state.history=[];save();}
+}
+</script>
+</body>
+</html>
