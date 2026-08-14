@@ -19,7 +19,7 @@ main{padding:16px 16px 90px}.view{display:none}.view.active{display:block}
 .plan-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:stretch}
 .zone{border:1px solid #cbd5e1;border-radius:12px;min-height:72px;padding:8px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;font-weight:800;background:#fafafa}
 .zone.area{min-height:150px;background:#f8fafc;color:#475569}
-.top-left{grid-column:1}.top-right{grid-column:3;display:grid;grid-template-columns:1fr;gap:8px}.area{grid-column:2;grid-row:1 / span 2}
+.top-left{grid-column:1;min-height:82px}.top-right{grid-column:3;display:grid;grid-template-columns:1fr;gap:8px}.area{grid-column:2;grid-row:1 / span 2}
 .bottom{grid-column:1 / span 3;display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .seat{position:relative;min-height:82px;border:0;border-radius:14px;padding:9px;color:#fff;text-align:left;cursor:pointer;box-shadow:0 4px 12px rgba(15,23,42,.1)}
 .seat.free{background:linear-gradient(145deg,#16a34a,#15803d)}.seat.busy{background:linear-gradient(145deg,#dc2626,#b91c1c)}.seat.done{background:linear-gradient(145deg,#d97706,#b45309)}
@@ -58,14 +58,19 @@ table{width:100%;border-collapse:collapse;font-size:12px}td,th{text-align:left;p
     </div>
     <div class="section-title">Denah PS</div>
     <div class="plan">
-      <div class="plan-label">Bagian atas</div>
+      <div class="plan-label">Denah area bermain</div>
       <div class="plan-grid">
-        <div class="zone top-left">TV / PS 5</div>
+        <button class="seat free top-left" id="seat-5" onclick="openUnit(5)"><div class="num">5</div><div class="status">KOSONG</div></button>
         <div class="zone area">AREA ETMIN</div>
         <div class="top-right">
-          <div class="zone">TV / PS 6</div><div class="zone">TV / PS 7</div>
+          <button class="seat free" id="seat-6" onclick="openUnit(6)"><div class="num">6</div><div class="status">KOSONG</div></button>
+          <button class="seat free" id="seat-7" onclick="openUnit(7)"><div class="num">7</div><div class="status">KOSONG</div></button>
         </div>
-        <div class="bottom">
+
+        <div class="zone" style="grid-column:1;grid-row:3">18 • 19 • 20</div>
+        <div class="zone" style="grid-column:3;grid-row:3">12 • 17</div>
+
+        <div class="bottom" style="grid-row:4">
           <button class="seat free" id="seat-11" onclick="openUnit(11)"><div class="num">11</div><div class="status">KOSONG</div></button>
           <button class="seat free" id="seat-12" onclick="openUnit(12)"><div class="num">12</div><div class="status">KOSONG</div></button>
           <button class="seat free" id="seat-13" onclick="openUnit(13)"><div class="num">13</div><div class="status">KOSONG</div></button>
@@ -74,7 +79,10 @@ table{width:100%;border-collapse:collapse;font-size:12px}td,th{text-align:left;p
           <button class="seat free" id="seat-16" onclick="openUnit(16)"><div class="num">16</div><div class="status">KOSONG</div></button>
           <button class="seat free" id="seat-17" onclick="openUnit(17)"><div class="num">17</div><div class="status">KOSONG</div></button>
         </div>
+
+        <div class="zone" style="grid-column:1 / span 3;grid-row:5;min-height:54px">22 • 31 &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; 32 • 40</div>
       </div>
+      <div class="muted" style="margin-top:10px">Semua nomor/area ditampilkan sebagai bagian denah. Unit yang dapat dioperasikan saat ini: 5, 6, 7, 11–17.</div>
     </div>
     <div class="section-title">Semua unit</div>
     <div id="unitCards" class="cards"></div>
